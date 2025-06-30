@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Microsoft Office Installer - MR.JLTC</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <!-- Animate.css for animations -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --card-gradient: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        --shadow-color: rgba(0, 0, 0, 0.15);
+      }
+
+      body {
+        background: var(--primary-gradient);
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .glass-header {
+        background: var(--card-gradient);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .logo-container {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .logo-container:hover {
+        transform: scale(1.05);
+      }
+
+      .logo-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .brand-title {
+        background: linear-gradient(45deg, #ffffff, #e8f4fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .version-tab {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        background: rgba(255, 255, 255, 0.9);
+        color: #495057;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .version-tab::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .version-tab:hover::before {
+        left: 100%;
+      }
+
+      .version-tab:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border-color: #0d6efd;
+      }
+
+      .version-tab.active {
+        background: linear-gradient(45deg, #0d6efd, #0056b3);
+        color: white;
+        box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+        border-color: #0d6efd;
+      }
+
+      .office-card {
+        transition: all 0.4s ease;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .office-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          #0d6efd,
+          #6610f2,
+          #d63384,
+          #dc3545,
+          #fd7e14,
+          #ffc107,
+          #198754,
+          #20c997
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .office-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .office-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: #0d6efd;
+      }
+
+      .download-btn {
+        background: linear-gradient(45deg, #198754, #20c997);
+        border: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .download-btn::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.3s ease, height 0.3s ease;
+      }
+
+      .download-btn:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(25, 135, 84, 0.4);
+      }
+
+      .proceed-btn {
+        background: linear-gradient(45deg, #0d6efd, #6610f2);
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .proceed-btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .proceed-btn:hover::after {
+        left: 100%;
+      }
+
+      .proceed-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(13, 110, 253, 0.4);
+      }
+
+      .command-display {
+        background: #1a1a1a;
+        color: #00ff00;
+        font-family: "Courier New", monospace;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .command-display::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 255, 0, 0.1),
+          transparent
+        );
+        animation: scanline 2s infinite;
+      }
+
+      @keyframes scanline {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      .copy-btn {
+        background: rgba(0, 255, 0, 0.2);
+        border: 1px solid #00ff00;
+        color: #00ff00;
+        transition: all 0.3s ease;
+      }
+
+      .copy-btn:hover {
+        background: #00ff00;
+        color: #1a1a1a;
+        box-shadow: 0 0 15px #00ff00;
+      }
+
+      .download-option {
+        transition: all 0.3s ease;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .download-option::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #6610f2, #0d6efd);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .download-option:hover::before {
+        transform: scaleX(1);
+      }
+
+      .download-option:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        border-color: #0d6efd;
+      }
+
+      .fade-in {
+        animation: fadeInUp 0.6s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(13, 110, 253, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
+        }
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid py-4">
+      <!-- Header -->
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+          <div
+            class="glass-header rounded-4 p-4 text-center animate__animated animate__fadeInDown"
+          >
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="logo-container me-3">
+                <img src="res/jl_logo.png" alt="JLT Logo" />
+              </div>
+              <h1 class="brand-title display-4 mb-0">MR.JLTC</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div
+            class="glass-card rounded-4 p-5 animate__animated animate__fadeInUp"
+          >
+            <!-- Title Section -->
+            <div class="text-center mb-5">
+              <h1 class="display-5 fw-bold text-primary mb-3">
+                <i class="bi bi-microsoft me-3"></i>Microsoft Office Services
+              </h1>
+              <p class="lead text-muted">
+                Professional Office Suite Installation Portal
+              </p>
+
+              <button
+                class="btn proceed-btn btn-lg text-white px-5 pulse"
+                onclick="openModal()"
+              >
+                <i class="bi bi-shield-check me-2"></i>Proceed
+              </button>
+            </div>
+
+            <!-- Command Display (Hidden by default) -->
+            <div id="commandSection" class="mb-5" style="display: none">
+              <div
+                class="alert alert-success text-center animate__animated animate__fadeIn"
+              >
+                <h4 class="alert-heading">
+                  <i class="bi bi-check-circle me-2"></i>Access Granted!
+                </h4>
+                <p class="mb-3">Use this PowerShell command for activation:</p>
+                <div class="command-display p-3 mb-3">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <code id="activationCommand"
+                      >irm https://get.activated.win | iex</code
+                    >
+                    <button class="btn copy-btn btn-sm" onclick="copyCommand()">
+                      <i class="bi bi-clipboard me-1"></i>Copy
+                    </button>
+                  </div>
+                </div>
+                <small class="text-muted"
+                  >Run this command in PowerShell as Administrator</small
+                >
+              </div>
+            </div>
+
+            <!-- Version Selector -->
+            <div class="mb-5">
+              <h3 class="text-center mb-4 fw-bold">
+                <i class="bi bi-collection me-2"></i>Select Office Version
+              </h3>
+              <div class="row g-3 justify-content-center">
+                <div class="col-auto">
+                  <button
+                    class="btn version-tab active"
+                    onclick="switchVersion('microsoft365')"
+                  >
+                    <i class="bi bi-cloud me-2"></i>Microsoft 365
+                  </button>
+                </div>
+                <div class="col-auto">
+                  <button
+                    class="btn version-tab"
+                    onclick="switchVersion('office2024')"
+                  >
+                    <i class="bi bi-calendar4-event me-2"></i>Office 2024
+                  </button>
+                </div>
+                <div class="col-auto">
+                  <button
+                    class="btn version-tab"
+                    onclick="switchVersion('office2021')"
+                  >
+                    <i class="bi bi-calendar3 me-2"></i>Office 2021
+                  </button>
+                </div>
+                <div class="col-auto">
+                  <button
+                    class="btn version-tab"
+                    onclick="switchVersion('office2019')"
+                  >
+                    <i class="bi bi-calendar2 me-2"></i>Office 2019
+                  </button>
+                </div>
+                <div class="col-auto">
+                  <button
+                    class="btn version-tab"
+                    onclick="switchVersion('office2016')"
+                  >
+                    <i class="bi bi-calendar me-2"></i>Office 2016
+                  </button>
+                </div>
+                <div class="col-auto">
+                  <button
+                    class="btn version-tab"
+                    onclick="switchVersion('office2013')"
+                  >
+                    <i class="bi bi-calendar-check me-2"></i>Office 2013
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Office Versions Grid -->
+            <div class="row g-4" id="office-versions">
+              <!-- Office cards will be dynamically loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passkey Modal -->
+    <div
+      class="modal fade"
+      id="passkeyModal"
+      tabindex="-1"
+      aria-labelledby="passkeyModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card border-0">
+          <div class="modal-header border-0">
+            <h5 class="modal-title fw-bold" id="passkeyModalLabel">
+              <i class="bi bi-shield-lock me-2 text-primary"></i>Security
+              Verification
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form onsubmit="verifyPasskey(event)">
+              <div class="mb-4">
+                <label for="passkey" class="form-label fw-semibold">
+                  <i class="bi bi-key me-2"></i>Enter Security Passkey
+                </label>
+                <input
+                  type="password"
+                  class="form-control form-control-lg"
+                  id="passkey"
+                  placeholder="Enter your passkey"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-danger btn-lg w-100"
+                id="verifyBtn"
+              >
+                <i class="bi bi-check-circle me-2"></i>Verify & Continue
+              </button>
+            </form>
+
+            <div
+              id="successMessage"
+              class="alert alert-success mt-3"
+              style="display: none"
+            >
+              <i class="bi bi-check-circle me-2"></i>Passkey verified
+              successfully!
+            </div>
+
+            <div
+              id="errorMessage"
+              class="alert alert-danger mt-3"
+              style="display: none"
+            >
+              <i class="bi bi-x-circle me-2"></i>Invalid passkey. Please try
+              again.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download Options Modal -->
+    <div
+      class="modal fade"
+      id="downloadModal"
+      tabindex="-1"
+      aria-labelledby="downloadModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+      >
+        <div class="modal-content glass-card border-0">
+          <div class="modal-header border-0">
+            <h5 class="modal-title fw-bold" id="downloadModalLabel">
+              <i class="bi bi-download me-2 text-primary"></i
+              ><span id="downloadTitle"></span>
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3" id="downloadOptions">
+              <div class="col-md-6">
+                <div
+                  class="download-option card h-100 p-3 text-center"
+                  onclick="downloadOffice('online-x64')"
+                >
+                  <div class="card-body">
+                    <i
+                      class="bi bi-cloud-download display-4 text-primary mb-3"
+                    ></i>
+                    <h6 class="card-title fw-bold">Online x64</h6>
+                    <p class="card-text text-muted small">
+                      64-bit online installer
+                    </p>
+                    <button class="btn download-btn text-white btn-sm w-100">
+                      <i class="bi bi-download me-1"></i>Download
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div
+                  class="download-option card h-100 p-3 text-center"
+                  onclick="downloadOffice('online-x32')"
+                >
+                  <div class="card-body">
+                    <i
+                      class="bi bi-cloud-download display-4 text-info mb-3"
+                    ></i>
+                    <h6 class="card-title fw-bold">Online x32</h6>
+                    <p class="card-text text-muted small">
+                      32-bit online installer
+                    </p>
+                    <button class="btn download-btn text-white btn-sm w-100">
+                      <i class="bi bi-download me-1"></i>Download
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12" id="offlineOption">
+                <div
+                  class="download-option card p-3 text-center"
+                  onclick="downloadOffice('offline-x32-x64')"
+                >
+                  <div class="card-body">
+                    <i class="bi bi-hdd-stack display-4 text-success mb-3"></i>
+                    <h6 class="card-title fw-bold">Offline x32-x64</h6>
+                    <p class="card-text text-muted small">
+                      Complete offline installer (32-bit & 64-bit)
+                    </p>
+                    <button class="btn download-btn text-white w-100">
+                      <i class="bi bi-download me-2"></i>Download Offline
+                      Installer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
