@@ -1,4 +1,4 @@
-const HASHED_PASSKEY = "d3e515f78b195cce10be5014d9a10ef7276e28e99b91e4bbb08473590c9f557e";
+const HASHED_PASSKEY = "169a5217d54a219864ec5139af78f39661f7fe544ce7e91ae115708e091c4e29";
 let isAuthenticated = false;
 let currentProduct = '';
 let currentVersion = 'microsoft365';
